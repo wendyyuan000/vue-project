@@ -65,6 +65,7 @@ npm run build --report
         3.发送请求
             this.$http.get('http://www.lovegf.cn:8899/api/getlunbo').then(result=>{
                 console.log(result)
+                this.banner = result.body.message
             })
 
 2.九宫格(使用的是mui)
