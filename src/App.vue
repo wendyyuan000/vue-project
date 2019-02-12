@@ -2,6 +2,7 @@
   <div id="app">
     <!-- header -->
     <mt-header fixed title="vue"></mt-header>
+		<!-- 中间 -->
     <router-view/>
     <!-- footer -->
     <nav class="mui-bar mui-bar-tab">
