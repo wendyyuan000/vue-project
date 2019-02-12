@@ -2,10 +2,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-//引入mint-ui组件
+//引入mint-ui完整组件
 import Mint from 'mint-ui'
 //注册组件
 Vue.use(Mint)
+
 import 'mint-ui/lib/style.css'
 
 //引入vue-router
