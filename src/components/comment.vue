@@ -5,17 +5,9 @@
         <textarea placeholder="请输入要bb的内容(最多120字)" maxlength="120"></textarea>
         <mt-button type="primary" size="large">发表 评论</mt-button>
         <ul>
-            <li>
-                <p class="user">第1楼用户:匿名用户 发表时间:2018-2-3 16:23:43</p>
-                <p class="content">什么鬼</p>
-            </li>
-            <li>
-                <p class="user">第1楼用户:匿名用户 发表时间:2018-2-3 16:23:43</p>
-                <p class="content">什么鬼</p>
-            </li>
-            <li>
-                <p class="user">第1楼用户:匿名用户 发表时间:2018-2-3 16:23:43</p>
-                <p class="content">什么鬼</p>
+            <li v-for="(item,index) in comments" :key="index">
+                <p class="user">第{{index+1}}楼用户:匿名用户 发表时间:{{item.add_time | dateFormat}}</p>
+                <p class="content">{{item.content}}</p>
             </li>
         </ul>
     </div>
@@ -23,7 +15,21 @@
 
 <script>
 export default {
-    
+    data(){
+        return {
+            comments:[]
+        }
+    },
+    created(){
+        this.getComment()
+    },
+    methods: {
+        getComment(){
+            this.$http.get('api/getcomments/19?pageindex=1').then(result=>{
+                this.comments = result.body.message
+            })
+        }
+    },
 }
 </script>
 
