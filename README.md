@@ -114,5 +114,13 @@ npm run build --report
         2.component下的comment.vue中设置props:['infoId'],这就相当于data中的数据了
         3.然后就可以直接使用infoId了
 
+##时间格式化,开启过滤器
+    newsInco下的index.vue
+    1.{{item.add_time | dateFormat}}
+    2.下载并在main.js中引入moment
+    3.main.js中设置全局过滤器,因为还有其他组件要使用该过滤器
+        Vue.filter('dateFormat',function(msg,pattern='YYYY-MM-DD HH-mm-ss'){
+            return moment(msg).format(pattern)
+        })
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
