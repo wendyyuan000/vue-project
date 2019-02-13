@@ -12,40 +12,40 @@
         <!-- 九宫格 -->
          <ul class="mui-table-view mui-grid-view mui-grid-9">
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/newsList">
 		            <img src="@/assets/images/menu1.png" alt="">
-		            <div class="mui-media-body">Home</div>
-                </a>
+		            <div class="mui-media-body">新闻资讯</div>
+                </router-link>
             </li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/sharePic">
 		            <img src="@/assets/images/menu2.png" alt="">
-		            <div class="mui-media-body">Email</div>
-                </a>
+		            <div class="mui-media-body">图片分享</div>
+                </router-link>
             </li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/shopping">
 		            <img src="@/assets/images/menu3.png" alt="">
-		            <div class="mui-media-body">Chat</div>
-                </a>
+		            <div class="mui-media-body">商品购买</div>
+                </router-link>
             </li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/message">
 		            <img src="@/assets/images/menu4.png" alt="">
-		            <div class="mui-media-body">location</div>
-                </a>
+		            <div class="mui-media-body">留言反馈</div>
+                </router-link>
             </li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/vedio">
 		            <img src="@/assets/images/menu5.png" alt="">
-		            <div class="mui-media-body">Search</div>
-                </a>
+		            <div class="mui-media-body">视屏专区</div>
+                </router-link>
             </li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/connect">
 		            <img src="@/assets/images/menu6.png" alt="">
-		            <div class="mui-media-body">Phone</div>
-                </a>
+		            <div class="mui-media-body">联系我们</div>
+                </router-link>
             </li>
 	    </ul> 
     </div>
@@ -63,7 +63,7 @@
         },
         methods: {
             getBanner() {
-                this.$http.get('http://www.lovegf.cn:8899/api/getlunbo')
+                this.$http.get('api/getlunbo')//这里要用相对路径 不要加/  'http://www.lovegf.cn:8899/api/getlunbo'
                     .then(result => {
                         console.log(result)
                         this.banner = result.body.message
@@ -75,7 +75,7 @@
 
 
 /* 如果是less那么需要 安装 less less-loader */
-<style lang="less">
+<style lang="less" scoped>
     .homeContainer {
         .mint-swipe {
             height: 200px;
