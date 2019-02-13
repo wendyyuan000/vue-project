@@ -32,7 +32,7 @@ Vue.filter('dateFormat',function(msg,pattern='YYYY-MM-DD HH-mm-ss'){  //pattern�
   return moment(msg).format(pattern)
 })
 
-//注册全局组件
+//注册全局评论组件
 import comment from './components/comment.vue'
 Vue.component('comment',comment)
 

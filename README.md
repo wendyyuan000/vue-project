@@ -108,6 +108,11 @@ npm run build --report
             width:100%
         }
         所以可以将scoped删除,就不存在这个问题
+    2.评论组件(有很多页面都用到了,所以在main.js中全局注册了组件)
+        最后的评论是通过子组件component文件comment.vue实现的
+        1.newsInfo下的index.vue中<comment :infoId="id"></comment>设置自定义属性
+        2.component下的comment.vue中设置props:['infoId'],这就相当于data中的数据了
+        3.然后就可以直接使用infoId了
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
