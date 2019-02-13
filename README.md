@@ -54,7 +54,23 @@ npm run build --report
         ],
             linkActiveClass:'mui-active'
         })
+5.点击底部图标切换组件的动画
+    1.出现横向滚动条  给#app盒子 overflow-x:hidden
+    2.切换组件时右进左出
+        .v-enter{
+	        opacity: 0;
+	        transform: translateX(100%)
+        }
 
+        .v-leave-to{
+        	opacity: 0;
+        	transform: translateX(-100%);
+        	position: absolute
+        }
+    3.组件切换时错乱,组件占位置,将离开的组件设置绝对定位 
+        .v-leave-to{
+        	position: absolute
+        }
 ##home页面
 1.轮播图(使用的是mint-ui)
     页面加载时发送请求获取图片
@@ -77,6 +93,21 @@ npm run build --report
 
 
 ##中间(router-view占位,切换相应组件)
+
+##新闻列表页newsList
+
+##新闻详情页newsInfo.vue
+    1.图片的大小设置
+        style中的scoped会将newsInfo.vue中的标签默认添加一个唯一标识属性v-data-88du
+        给img设置宽度 
+        img{
+            width:100%
+        }
+        就是给下面的属性赋值,但是页面中的确实img
+        img[v-data-88du]{
+            width:100%
+        }
+        所以可以将scoped删除,就不存在这个问题
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

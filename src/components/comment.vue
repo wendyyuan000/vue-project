@@ -20,12 +20,14 @@ export default {
             comments:[]
         }
     },
+    props:['infoId'],
     created(){
         this.getComment()
     },
     methods: {
         getComment(){
-            this.$http.get('api/getcomments/19?pageindex=1').then(result=>{
+            this.$http.get('api/getcomments/'+this.infoId+'?pageindex=1').then(result=>{
+                console.log(result)
                 this.comments = result.body.message
             })
         }

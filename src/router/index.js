@@ -19,7 +19,7 @@ export default new Router({
     {path:'/member',component:memberComponent},
     {path:'/shopcar',component:shopcarComponent},
     {path:'/search',component:searchComponent},
-    {path:'/home/newsList',component:newsListComponent},
+    {path:'/home/newsList',component:newsListComponent}, //这里加路径加/home是为了保持高亮
     {path:'/home/sharePic',component:sharePicComponent},
     {path:'/home/newsInfo/:id',component:newsInfoComponent},
   ],

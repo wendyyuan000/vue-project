@@ -10,7 +10,7 @@
         <!-- 内容 -->
         <div class="content" v-html="newsInfo.content"></div>
         <!-- 评论 -->
-        <comment></comment>
+        <comment :infoId="id"></comment>
     </div>
 </template>
 
