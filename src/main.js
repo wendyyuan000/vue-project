@@ -18,6 +18,8 @@ Vue.use(VueResource)
 
 //配置根路径,后面请求的接口就不要/
 Vue.http.options.root = 'http://www.lovegf.cn:8899'
+//配置提交数据格式
+Vue.http.options.emulateJSON = true
 
 //引入mui
 import './lib/mui/css/mui.css'  //1.引入普通小图标类样式 2.直接在标签中加入类样式
@@ -35,6 +37,10 @@ Vue.filter('dateFormat',function(msg,pattern='YYYY-MM-DD HH-mm-ss'){  //pattern�
 //注册全局评论组件
 import comment from './components/comment.vue'
 Vue.component('comment',comment)
+
+//导入并安装预览插件
+import VuePreview from 'vue-pic-preview'
+Vue.use(VuePreview)
 
 Vue.config.productionTip = false
 

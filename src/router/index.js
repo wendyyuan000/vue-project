@@ -7,8 +7,9 @@ import memberComponent from '../pages/member'
 import shopcarComponent from '../pages/shopcar'
 import searchComponent from '../pages/search'
 import newsListComponent from '../pages/newsList'
-import sharePicComponent from '../pages/sharePic'
+import photoListComponent from '../pages/photoList'
 import newsInfoComponent from '../pages/newsInfo'
+import photoInfoComponent from '../pages/photoInfo'
 
 Vue.use(Router)
 
@@ -20,8 +21,9 @@ export default new Router({
     {path:'/shopcar',component:shopcarComponent},
     {path:'/search',component:searchComponent},
     {path:'/home/newsList',component:newsListComponent}, //这里加路径加/home是为了保持高亮
-    {path:'/home/sharePic',component:sharePicComponent},
     {path:'/home/newsInfo/:id',component:newsInfoComponent},
+    {path:'/home/photoList',component:photoListComponent},
+    {path:'/home/photoInfo/:id',component:photoInfoComponent},
   ],
   linkActiveClass:'mui-active'
 })
