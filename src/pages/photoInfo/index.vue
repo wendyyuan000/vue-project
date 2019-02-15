@@ -21,9 +21,9 @@
          这里注意要在得到的数据中设置宽,高-->
         <div class="preview">
             <img class="preview-img" 
-        v-for="(item, index) in previewList" 
-        :src="item.src" height="100" 
-        @click="$preview.open(index, list)" />
+                 v-for="(item, index) in previewList" 
+                 :src="item.src" height="100" 
+                 @click="$preview.open(index, previewList)">   <!-- 这里记住将index后面的参数改为previewList -->
         </div>
 
         <!-- 内容区域 -->
