@@ -127,5 +127,45 @@ npm run build --report
         2.component下的comment.vue中设置props:['infoId'],这就相当于data中的数据了
         3.然后就可以直接使用infoId了
 
-        
+##图片列表页
+    1.顶部的tab菜单栏使用的是mui有5个注意点
+        1.模板中有.mui-fullscreen类名,表示占全屏,顶部的固定导航栏重合,需要将此类名删掉
+        2.引入mui.js,并在mounted钩子中初始化插件,这样菜单栏才能够拖动
+            import mui from '@/lib/mui/js/mui.js'
+            mui('.mui-scroll-wrapper').scroll({
+			deceleration: 0.0005 
+		})
+        3.webpack4 遵循严格模式 这里的mui.js中的caller,callee,arguments不能使用,需要在babelrc    中忽略mui.js文件
+          "ignore": ["./src/lib/mui/js/mui.js"]
+        4.底部菜单栏无法切换,这里需要改变.mui-tab-item类名,并将含有该类名下的所有样式都重新赋值给新类名
+        由于mui中的 .mui-tab-item 的类名,在页面打开检查,在App.vue更换tab菜单栏的这个类名并设置样式
+
+    2.图片懒加载 mint-ui下的lazy-load ,这个需要全局引入,不然没有效果
+        <ul>
+            <li v-for="item in list">
+                <img v-lazy="item">  //item的值为图片的地址
+            </li>
+        </ul>
+        同时需要设置图片在加载时的样式
+        img[lazy=loading] {
+            width: 40px;
+            height: 300px;
+            margin: auto;
+        }
+
+##图片详情页
+    图片预览模块
+    1.下载插件 npm i vue-pic-preview -S
+    2.使用vue-cli生成的项目可能需要你修改webpack.base.conf.js文件中的loaders
+         {
+            test: /vue-preview.src.*?js$/,
+            loader: 'babel'
+         } 
+    3.在main.js中引入和安装插件
+            import VuePreview from 'vue-pic-preview'
+            Vue.use(VuePreview)
+    4.模板
+    <img class="preview-img" v-for="(item, index) in list" :src="item.src" height="100" @click="$preview.open(index, list)">
+    这里注意要在得到的数据中设置w宽,h高,这里要注意有两个地方有list,别忘了修改-->
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
