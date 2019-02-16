@@ -127,7 +127,7 @@ export default {
             let ydis = numPosition.top - ballPosition.top
 
             el.style.transform = `translate(${xdis}px,${ydis}px)`
-            el.style.transition = 'all 0.5s ease'
+            el.style.transition = 'all 0.5s cubic-bezier(.22,.58,.92,.38)'
             done()
         },
         afterEnter(el){
