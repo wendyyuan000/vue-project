@@ -13,9 +13,9 @@
                          <span>剩余{{item.stock_quantity}}件</span>
                     </p>
                 </div>
-            
-            
         </div>
+
+         <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
 
     </div>
 </template>
@@ -36,12 +36,16 @@ export default {
             this.$http.get('api/getgoods?pageindex='+this.pageindex).then(result=>{
                 console.log(result);
                 if(result.body.status===0){
-                    this.goodsList = result.body.message
+                    this.goodsList = this.goodsList.concat(result.body.message)
                 }
             })
         },
         goGoodsInfo(id){ //通过 编程式导航实现跳转
             this.$router.push('/home/goodsInfo/'+id)
+        },
+        getMore(){
+            this.pageindex++
+            this.getGoodsList()
         }
     },
 }
