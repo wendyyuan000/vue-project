@@ -32,7 +32,7 @@
                         购买数量:
                         <!-- 减少按钮 -->
                         <input type="button" value="-" 
-                        @click="buyCount>=2 && buyCount--"
+                        @click="buyCount>=2 && buyCount--"  
                         :disabled="buyCount==1">
 
                         <!-- 文本框 -->
@@ -116,7 +116,7 @@ export default {
             el.offsetWidth
             /* 这里小球的位移要通过购物车的0的位置-小球的位置 */
             /*通过dom元素获取元素的位置dom.getBoundingClientRect()  */
-            
+
             /* 小球的位置 */
             let ballPosition = this.$refs.ball.getBoundingClientRect()
             

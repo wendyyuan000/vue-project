@@ -168,4 +168,61 @@ npm run build --report
     <img class="preview-img" v-for="(item, index) in list" :src="item.src" height="100" @click="$preview.open(index, list)">
     这里注意要在得到的数据中设置w宽,h高,这里要注意有两个地方有list,别忘了修改-->
 
+##商品列表页
+弹性布局
+
+##商品详情页
+购买数量: 减少按钮:1.点击buyCount减1  @click="buyCount>=2 && buyCount--"   前面为假则后面不执行
+                 2.数量为1时禁用:  disabled="buyCount==1"
+
+         增加按钮:1.点击buyCount加1  @click="buyCount<goodsInfo.stock_quantity && buyCount++"
+                2.数量为库存量是禁用: disabled="buyCount==goodsInfo.stock_quantity"
+
+         文本框:1.双向数据绑定 v-model="buyCount"
+                2.通过 change事件监听数值变化,当数值小于1时,让数值等于1,数值大于库存时,让数值等于 库存
+                filterCount(){
+                    if(this.buyCount<1){
+                        this.buyCount = 1
+                    }else if(this.buyCount>this.goodsInfo.stock_quantity){
+                        this.buyCount = this.goodsInfo.stock_quantity
+                    }
+                }
+
+点击购物车:  开始在data中定义isshow=false  小球隐藏
+        addToCar(){
+            this.isshow = !this.isshow  小球显示
+        }  
+    
+    小球动画:
+        1.将app.vue中的动画transition取名防止冲突
+        2.半场动画只能用动画的钩子函数,
+        <transition @beforeEnter="beforeEnter" @enter="enter" @afterEnter="afterEnter">
+            <div class="ball" v-show="isshow" ref="ball"></div>
+        </transition>
+        3.实现逻辑
+        beforeEnter(el){
+            el.style.transform = 'translate(0,0)' //开始将小球定位在输入框的数字位置作为小球初                                                              始位置
+        },
+        enter(el,done){
+            el.offsetWidth
+            /* 这里小球的位移要通过购物车的0的位置-小球的位置 */
+            /*通过dom元素获取元素的位置dom.getBoundingClientRect()  */
+
+            /* 小球的位置 */
+            let ballPosition = this.$refs.ball.getBoundingClientRect()
+            
+            /* 购物车中的0的位置 可以直接通过获取元素的方法获取app.vue中的元素*/
+            let numPosition = document.getElementById('carnum').getBoundingClientRect()
+            
+            let xdis = numPosition.left - ballPosition.left
+            let ydis = numPosition.top - ballPosition.top
+
+            el.style.transform = `translate(${xdis}px,${ydis}px)`    //小球进入后的位置
+            el.style.transition = 'all 0.5s ease'
+            done()
+        },
+        afterEnter(el){
+            this.isshow = !this.isshow 动画结束小球隐藏
+        }
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
