@@ -27,7 +27,7 @@
 
 <script>
 // 1.tab菜单栏跑到顶部了,需要删除 .mui-fullscreen类名
-//2.引入mui.js,并在mounted中初始化插件scroll
+//2.引入mui.js,并在mounted中初始化插件scroll,实现滚动
 import mui from '@/lib/mui/js/mui.js'
 //3.webpack4 遵循严格模式 这里的mui.js中的caller,callee,arguments不能使用,需要在babelrc中忽略mui.js文件
 //4.APP.vue的底部菜单栏无法切换,是由于mui中的 .mui-tab-item 的类名,在页面打开检查,在App.vue更换tab菜单栏的这个类名并设置样式
