@@ -108,6 +108,12 @@ export default {
         },
         addToCar(){
             this.isshow = !this.isshow
+            this.$store.commit('getGoodsInfo',{
+                id:this.id,
+                price:this.goodsInfo.sell_price,
+                count:this.buyCount,
+                selected:true
+            })
         },
         beforeEnter(el){
             el.style.transform = 'translate(0,0)'

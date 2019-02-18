@@ -223,6 +223,63 @@ npm run build --report
         },
         afterEnter(el){
             this.isshow = !this.isshow 动画结束小球隐藏
-        }
+##点击加入购物车,实现购物车徽标的改变(通过vuex实现)
+1.配置vuex环境
+    1.下载vuex
+        npm i vuex -S
+    2.引入和安装
+     import Vuex from 'vuex'
+     Vue.use(Vuex)
+    3.创建store实例
+      var store = new Vuex.Store({
+          state:{},
+          mutations:{},
+          getters:{}
+      })
+    4.将store挂载到vm实例上
+2.实现逻辑 
+    //1.初次进入获取localStorage
+    var car = JSON.parse(localStorage.getItem('car') || '[]')
+    var store = new Vuex.Store({
+          state:{
+              //shopcar:[]
+              shopcar:car
+          },
+          mutations:{  //改变state中的数据shopcar的方法写在mutations中,
+             getGoodsInfo(state,goodsInfo){  //1.将数据添加到localStorage
+                    //判断购物车中是否存在该商品的索引,如果index==-1,则不存在
+                    let index = state.shopcar.findIndex(item => shopcar.id===goodsInfo.id)  
+                    if(index==-1){
+                        state.shopcar.push(goodsInfo)  //不存在就直接将该商品信息添加到shopcar中
+                    }else{
+                        state.shopcar[index].count += goodsInfo.count
+                    }
+                    //每次修改数据要重新写入localStorage
+                    localStorage.setItem('car',JSON.parse(state.shopcar))
+              }
+          },
+          getters:{
+              //3.同步购物车徽标,将shopcar每一项的count相加
+              totalCount(state){
+                  let sum = 0
+                  state.shopcar.forEach(item=>{
+                      sum += item.count
+                  })
+                  return sum
+              }
+          }
+      })
+        //2.在商品详情页点击加入购入车,调用store的mutation中的getGoodsInfo方法,并将商品信息传入
+        addToCar(){
+            this.isshow = !this.isshow
+            this.$store.commit('getGoodsInfo',{
+                id:this.id,
+                price:this.goodsInfo.sell_price,
+                count:this.buyCount,
+                selected:true
+            })
+
+        //4.在app.vue中调用方法getters中的totalCount方法
+        <span class="mui-badge" id="carnum">{{$store.getters.totalCount}}</span>
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

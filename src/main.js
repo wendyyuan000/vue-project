@@ -29,6 +29,64 @@ import './lib/mui/css/icons-extra.css' //1.引入扩展小图标类样式 2.将t
 //引入moment时间格式化插件
 import moment from 'moment'
 
+//引入vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+//初次进入页面获取localStorage
+let car = JSON.parse(localStorage.getItem('car') || '[]')
+
+//创建store对象
+var store = new Vuex.Store({
+  state:{
+    shopcar: car
+  },
+  mutations:{  //this.$store.commit('方法名',{}) 这里的参数只有一个,多个参数可以传对象和数据
+    getGoodsInfo(state,goodsInfo){
+      let index = state.shopcar.findIndex(item=>item.id===goodsInfo.id)  //如果存在,返回索引,如果不存在在,返回-1
+      if(index===-1){
+        state.shopcar.push(goodsInfo)  //商品在购物车不存在.则添加商品信息
+      }else{
+        state.shopcar[index].count += parseInt(goodsInfo.count) //商品存在,则只改变商品数量
+      }
+
+       //修改数据将数据写入localstorage
+      localStorage.setItem('car',JSON.stringify(state.shopcar))
+    },
+    updateCount(state,goodsInfo){  //用于更新数量   这里的goodsInfo只需要id和count
+        state.shopcar.some(item=>{
+          if(item.id===goodsInfo.id){
+            item.count = goodsInfo.count
+            // console.log(item.count,'444')
+            // console.log(goodsInfo.count,'444')
+            return true
+          }
+        })
+         //修改数据将数据写入localstorage
+      localStorage.setItem('car',JSON.stringify(state.shopcar))
+      // console.log(11)
+    }
+   
+  },
+  getters:{
+    totalCount(state){  //同步购物车徽标
+        let sum = 0
+        state.shopcar.forEach(item=>{
+           sum += item.count
+        })
+        return sum
+    },
+    goodsCount(state){
+      //通过遍历shopcar手动创建一个{id:count}对象
+      var obj = {}
+      state.shopcar.forEach(item=>{
+        obj[item.id] = item.count
+      })
+      return obj
+    },
+  }
+})
+
 //设置全局过滤器
 Vue.filter('dateFormat',function(msg,pattern='YYYY-MM-DD HH-mm-ss'){  //pattern就是设置默认的时间格式
   return moment(msg).format(pattern)
@@ -48,5 +106,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
