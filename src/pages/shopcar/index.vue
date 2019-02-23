@@ -4,7 +4,8 @@
 		<div class="mui-card">
 			<div class="mui-card-content">
 				<div class="mui-card-content-inner" v-for="(item,i) in goodsList" :key="item.id">
-						<mt-switch @change="goodsStateChange(item.id,$store.getters.goodsSelected[item.id])"></mt-switch>
+						<mt-switch @change="goodsStateChange(item.id,$store.getters.goodsSelected[item.id])"
+						:value="$store.getters.goodsSelected[item.id]"></mt-switch>
 						<img :src="item.thumb_path">
 						<div>
 							 <p>{{item.title}}</p>
