@@ -282,4 +282,8 @@ npm run build --report
         //4.在app.vue中调用方法getters中的totalCount方法
         <span class="mui-badge" id="carnum">{{$store.getters.totalCount}}</span>
 
+##下拉刷新,上拉加载 vue-scroller插件
+
+(better-scroll 等动态的子元素加载完毕执行的代码Vue.nextTick(()=>{}))
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

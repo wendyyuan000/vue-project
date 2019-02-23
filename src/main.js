@@ -12,7 +12,7 @@ Vue.use(Mint)
 
 import 'mint-ui/lib/style.css'
 
-//引入vue-router
+//引入vue-resource,发送请求  this.$http.get()
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
@@ -39,10 +39,10 @@ let car = JSON.parse(localStorage.getItem('car') || '[]')
 //创建store对象
 var store = new Vuex.Store({
   state:{
-    shopcar: car
+    shopcar: car  //{id,price,count,selected}
   },
   mutations:{  //this.$store.commit('方法名',{}) 这里的参数只有一个,多个参数可以传对象和数据
-    getGoodsInfo(state,goodsInfo){
+    getGoodsInfo(state,goodsInfo){  //商品详情页面----点击加入购物车执行的代码
       let index = state.shopcar.findIndex(item=>item.id===goodsInfo.id)  //如果存在,返回索引,如果不存在在,返回-1
       if(index===-1){
         state.shopcar.push(goodsInfo)  //商品在购物车不存在.则添加商品信息
@@ -55,20 +55,38 @@ var store = new Vuex.Store({
     },
     updateCount(state,goodsInfo){  //用于更新数量   这里的goodsInfo只需要id和count
         state.shopcar.some(item=>{
-          if(item.id===goodsInfo.id){
+          if(item.id==goodsInfo.id){
             item.count = goodsInfo.count
-            // console.log(item.count,'444')
-            // console.log(goodsInfo.count,'444')
-            return true
+             return true
           }
         })
          //修改数据将数据写入localstorage
       localStorage.setItem('car',JSON.stringify(state.shopcar))
       // console.log(11)
+    },
+    /* 更新选中状态 */
+    updateSelected(state,goodsSelected){
+        state.shopcar.some(item=>{
+          if(item.id==goodsSelected.id){
+            item.selected = !goodsSelected.selected
+            return true
+          }
+        })
+        localStorage.setItem('car',JSON.stringify(state.shopcar))
+    },
+    /* 删除商品 */
+    removeFromCar(state,id){
+        state.shopcar.some((item,i)=>{
+          if(item.id==id){
+            state.shopcar.splice(i,1)
+            return true
+          }
+        })
+        localStorage.setItem('car',JSON.stringify(state.shopcar))
     }
    
   },
-  getters:{
+  getters:{  //this.$store.方法名
     totalCount(state){  //同步购物车徽标
         let sum = 0
         state.shopcar.forEach(item=>{
@@ -84,6 +102,27 @@ var store = new Vuex.Store({
       })
       return obj
     },
+    goodsSelected(state){
+      //手动创建一个对象{id:selected}
+        var obj = {}
+        state.shopcar.forEach(item=>{
+          obj[item.id] = item.selected
+        })
+        return obj
+    },
+    goodsCountAmount(state){
+      var obj = {
+        count:0, //勾选数量
+        amount:0  //勾选商品总价
+      }
+      state.shopcar.forEach(item=>{
+        if(item.selected){
+          obj.count += item.count
+          obj.amount += item.price * item.count
+        }
+      })
+      return obj
+    }
   }
 })
 
@@ -98,6 +137,7 @@ Vue.component('comment',comment)
 
 //导入并安装预览插件
 import VuePreview from 'vue-pic-preview'
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 Vue.use(VuePreview)
 
 Vue.config.productionTip = false

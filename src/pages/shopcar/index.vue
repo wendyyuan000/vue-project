@@ -3,8 +3,8 @@
         
 		<div class="mui-card">
 			<div class="mui-card-content">
-				<div class="mui-card-content-inner" v-for="item in goodsList" :key="item.id">
-						<mt-switch></mt-switch>
+				<div class="mui-card-content-inner" v-for="(item,i) in goodsList" :key="item.id">
+						<mt-switch @change="goodsStateChange(item.id,$store.getters.goodsSelected[item.id])"></mt-switch>
 						<img :src="item.thumb_path">
 						<div>
 							 <p>{{item.title}}</p>
@@ -20,7 +20,7 @@
                         <!-- 增加按钮 -->
                         <input type="button" value="+" @click="increase(item.id)">
                     </span>
-										<span>删除</span>
+										<span @click="remove(item.id,i)">删除</span>
 							 </div>
 						</div>
 				</div>
@@ -30,7 +30,8 @@
         <div class="mui-card">
 		    <div class="mui-card-content">
 		    	<div class="mui-card-content-inner">
-		    		这是一个最简单的卡片视图控件；卡片视图常用来显示完整独立的一段信息，比如一篇文章的预览图、作者信息、点赞数量等
+		    		<p>总件数:{{$store.getters.goodsCountAmount.count}}</p>
+					<p>总价:{{$store.getters.goodsCountAmount.amount}}</p>
 		    	</div>
 		    </div>
         </div>
@@ -41,7 +42,7 @@
 export default {
     data(){
 			return {
-					goodsList:[],
+					goodsList:[],  //渲染的数据
 					goodsCount:this.$store.getters.goodsCount  //获取{id:count}对象
 			}
 		},
@@ -67,15 +68,21 @@ export default {
 			decrease(id){  //点击按钮数量减少
 					// console.log(11)
 					this.goodsCount[id]>1 && this.goodsCount[id]--   //如果当前商品的数量大于1,则可以减
-					console.log(this.goodsCount[id])
+					// console.log(this.goodsCount[id])
 					this.$store.commit('updateCount',{id:id,count:this.goodsCount[id]})
 					// console.log({id:id,count:this.goodsCount[id]})
-					
 			},
 			increase(id){
 				// console.log(22)
 					this.goodsCount[id]++
 					this.$store.commit('updateCount',{id:id,count:this.goodsCount[id]})
+			},
+			goodsStateChange(id,selected){
+				this.$store.commit('updateSelected',{id,selected})
+			},
+			remove(id,i){
+				this.goodsList.splice(i,1)
+				this.$store.commit('removeFromCar',id)
 			}
 		},
 }
