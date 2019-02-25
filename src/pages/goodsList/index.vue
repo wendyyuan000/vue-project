@@ -1,5 +1,15 @@
 <template>
-    <div class="goodsList">
+    <scroller
+    ref="sc"
+    refreshText="下拉刷新"
+    noDataText="没更多数据啦"
+    :snapping="true"  
+    refreshLayerColor="blue"
+    loadingLayerColor="blue"
+  :on-refresh="refresh"
+  :on-infinite="infinite">
+  
+  <div class="goodsList">
         <div class="goodsItem" v-for="item in goodsList" :key="item.id" @click="goGoodsInfo(item.id)">
             <img :src="item.img_url" alt="">
             <div class="title">{{item.title}}</div>
@@ -15,9 +25,12 @@
                 </div>
         </div>
 
-         <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
+         <!-- <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button> -->
 
     </div>
+
+</scroller>
+    
 </template>
 
 <script>
@@ -31,11 +44,19 @@ export default {
     created() {
         this.getGoodsList()
     },
+    mounted(){
+        this.$refs.sc.triggerPullToRefresh() //开始手动刷新
+    },
     methods: {
-        getGoodsList(){
-            this.$http.get('api/getgoods?pageindex='+this.pageindex).then(result=>{
-                console.log(result);
-                if(result.body.status===0){
+        getGoodsList(isRefresh){ //让人过没有传参数,就自动走else代码
+          return  this.$http.get('api/getgoods?pageindex='+this.pageindex).then(result=>{
+                // console.log(result);
+                // if(result.body.status===0){
+                //     this.goodsList = this.goodsList.concat(result.body.message)
+                // }
+                if(isRefresh){
+                    this.goodsList = result.body.message
+                }else{
                     this.goodsList = this.goodsList.concat(result.body.message)
                 }
             })
@@ -46,6 +67,22 @@ export default {
         getMore(){
             this.pageindex++
             this.getGoodsList()
+        },
+        refresh(){ //下拉刷新
+            //重置索引为1
+            this.pageindex = 1
+            //获取商品列表后,结束下拉刷新
+            this.getGoodsList(true).then(()=>{
+                this.$refs.sc.finishPullToRefresh()
+            })
+        },
+        infinite(){  //上拉加载更过
+            this.pageindex++
+            //获取商品列表后,结束上拉加载
+            this.getGoodsList().then(()=>{
+                //结束上拉加载
+                this.$refs.sc.finishInfinite(this.goodsList.lenght==15)
+            })
         }
     },
 }

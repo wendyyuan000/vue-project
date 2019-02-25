@@ -284,6 +284,16 @@ npm run build --report
 
 ##下拉刷新,上拉加载 vue-scroller插件
 
+##导航守卫(登录拦截)
+
+##axios
+全局配置默认url
+Vue.prototype.$http=axios
+axios.defaults.baseURL='http://'
+添加axios请求拦截器(发送请求之前设置请求头)
+        响应拦截器(统一的错误输出,不需要每次catch捕获)
+
+
 (better-scroll 等动态的子元素加载完毕执行的代码Vue.nextTick(()=>{}))
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

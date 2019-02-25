@@ -33,6 +33,13 @@ import moment from 'moment'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+//引入上拉加载下拉刷新插件vue-scroller
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
+// import axios from 'axios'
+//Vue.prototype.$http=axios
+
 //初次进入页面获取localStorage
 let car = JSON.parse(localStorage.getItem('car') || '[]')
 
